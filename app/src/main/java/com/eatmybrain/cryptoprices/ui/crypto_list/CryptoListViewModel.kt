@@ -50,7 +50,9 @@ class CryptoListViewModel @Inject constructor(
         if(delay) delay(1000)
 
         if(response.status.errorCode == 0){
-            loadImageUrls(response)
+            response.data?.forEach {
+                it.imageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/${it.id}.png"
+            }
             parseResponseData(response)
         } else{
            responseError(response)
@@ -68,15 +70,13 @@ class CryptoListViewModel @Inject constructor(
         _metaverseList.postValue(result)
     }
 
-    private fun loadImageUrls(response: CryptoListResponse){
-        response.data!!.forEach { it.imageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/${it.id}.png" }
-    }
+
 
     private suspend fun parseResponseData(response:CryptoListResponse) = withContext(Dispatchers.IO){
-        val crypto = ResultOf.Success(response.data!!.filter { it.tags.contains("mineable") })
-        val defi = ResultOf.Success(response.data.filter { it.tags.contains("defi") })
-        val nft = ResultOf.Success(response.data.filter { it.tags.contains("collectibles-nfts") })
-        val metaverse = ResultOf.Success(response.data.filter { it.tags.contains("metaverse") })
+        val crypto = ResultOf.Success(response.data?.filter { it.tags.contains("mineable") } ?: emptyList())
+        val defi = ResultOf.Success(response.data?.filter { it.tags.contains("defi") }?: emptyList())
+        val nft = ResultOf.Success(response.data?.filter { it.tags.contains("collectibles-nfts") }?: emptyList())
+        val metaverse = ResultOf.Success(response.data?.filter { it.tags.contains("metaverse") }?: emptyList())
         _cryptoList.postValue(crypto)
         _defiList.postValue(defi)
         _nftList.postValue(nft)

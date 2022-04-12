@@ -11,11 +11,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.eatmybrain.cryptoprices.data.enums.CryptoAppTab
 import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.ui.components.CryptoLazyColumn
 import com.eatmybrain.cryptoprices.ui.components.CryptoTabsRow
 import com.eatmybrain.cryptoprices.ui.components.LoadingError
-import com.eatmybrain.cryptoprices.util.CryptoAppTab
 import com.eatmybrain.cryptoprices.util.doIfFailure
 import com.eatmybrain.cryptoprices.util.doIfSuccess
 import com.google.accompanist.swiperefresh.SwipeRefresh

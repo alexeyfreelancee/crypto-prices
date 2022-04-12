@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.eatmybrain.cryptoprices.MainActivity
 import com.eatmybrain.cryptoprices.data.structures.CryptoFullInfo
+import com.eatmybrain.cryptoprices.ui.components.CandlesGraph
 import com.eatmybrain.cryptoprices.ui.components.CryptoImage
 import com.eatmybrain.cryptoprices.ui.components.LinkifyText
 import com.eatmybrain.cryptoprices.ui.components.LoadingError
@@ -22,7 +23,7 @@ import com.eatmybrain.cryptoprices.util.doIfFailure
 import com.eatmybrain.cryptoprices.util.doIfSuccess
 import dagger.hilt.android.EntryPointAccessors
 
-//TODO image loading
+
 //TODO price graph
 @Composable
 fun CryptoInfoScreen(
@@ -30,20 +31,33 @@ fun CryptoInfoScreen(
     viewModel: CryptoInfoViewModel = cryptoInfoViewModel(cryptoSymbol)
 ) {
     val cryptoInfoResult by viewModel.cryptoInfo.observeAsState()
+    val candlesDataResult by viewModel.candlesData.observeAsState()
     val refreshing by viewModel.isRefreshing.observeAsState()
 
-    if(refreshing == true){
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+    if (refreshing == true) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     }
-    cryptoInfoResult?.doIfFailure {
-        LoadingError()
+    Column {
+        cryptoInfoResult?.doIfFailure {
+            LoadingError()
+        }
+        cryptoInfoResult?.doIfSuccess { cryptoInfo ->
+            Header(cryptoInfo)
+        }
+
+        candlesDataResult?.doIfFailure {
+            LoadingError()
+        }
+
+        candlesDataResult?.doIfSuccess { candlesData ->
+            CandlesGraph(candlesData)
+        }
     }
-    cryptoInfoResult?.doIfSuccess { cryptoInfo ->
-        Header(cryptoInfo)
-    }
+
 }
+
 
 @Composable
 fun cryptoInfoViewModel(cryptoSymbol: String): CryptoInfoViewModel {

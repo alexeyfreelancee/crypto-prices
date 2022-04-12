@@ -18,7 +18,7 @@ interface CoinmarketApi {
     )
     suspend fun topCryptoList(
         @Header("X-CMC_PRO_API_KEY")
-        apiKey:String = BuildConfig.API_KEY,
+        apiKey:String = BuildConfig.COINMARKETCAP_KEY,
         @Query("start") start:Int = 1,
         @Query("limit") limit:Int = 500
     ) : CryptoListResponse
@@ -29,7 +29,7 @@ interface CoinmarketApi {
     )
     suspend fun cryptoInfo(
         @Header("X-CMC_PRO_API_KEY")
-        apiKey:String = BuildConfig.API_KEY,
+        apiKey:String = BuildConfig.COINMARKETCAP_KEY,
         @Query("symbol")
         symbol:String
     ) : CryptoInfoResponse

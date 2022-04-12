@@ -27,8 +27,10 @@ android {
 
     buildTypes {
         buildTypes.each {
-            it.buildConfigField 'String', 'API_KEY', API_KEY
-            it.buildConfigField 'String', 'BASE_URL', BASE_URL
+            it.buildConfigField 'String', 'COINMARKETCAP_KEY', COINMARKETCAP_KEY
+            it.buildConfigField 'String', 'COINMARKETCAP_API', COINMARKETCAP_API
+            it.buildConfigField 'String', 'FINNHUB_KEY', FINNHUB_KEY
+            it.buildConfigField 'String', 'FINNHUB_API', FINNHUB_API
         }
         release {
             minifyEnabled false

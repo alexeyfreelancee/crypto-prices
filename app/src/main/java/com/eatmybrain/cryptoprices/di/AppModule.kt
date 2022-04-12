@@ -3,6 +3,7 @@ package com.eatmybrain.cryptoprices.di
 import com.eatmybrain.cryptoprices.BuildConfig
 import com.eatmybrain.cryptoprices.data.Repository
 import com.eatmybrain.cryptoprices.data.api.CoinmarketApi
+import com.eatmybrain.cryptoprices.data.api.FinnhubApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,13 +27,26 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCoinmarketApi(loggingClient: OkHttpClient):CoinmarketApi = Retrofit.Builder()
-        .baseUrl(BuildConfig.BASE_URL)
+        .baseUrl(BuildConfig.COINMARKETCAP_API)
         .addConverterFactory(GsonConverterFactory.create())
         .client(loggingClient)
         .build()
         .create(CoinmarketApi::class.java)
 
+
     @Provides
     @Singleton
-    fun provideRepository(api:CoinmarketApi):Repository = Repository(api)
+    fun provideFinnhubApi(loggingClient: OkHttpClient):FinnhubApi = Retrofit.Builder()
+        .baseUrl(BuildConfig.FINNHUB_API)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(loggingClient)
+        .build()
+        .create(FinnhubApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        coinmarketApi: CoinmarketApi,
+        finnhubApi: FinnhubApi
+    ):Repository = Repository(coinmarketApi, finnhubApi)
 }

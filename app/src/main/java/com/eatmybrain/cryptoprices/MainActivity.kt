@@ -18,7 +18,7 @@ import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoScreen
 import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoViewModel
 import com.eatmybrain.cryptoprices.ui.crypto_list.CryptoListScreen
 import com.eatmybrain.cryptoprices.ui.theme.CryptoPricesTheme
-import com.eatmybrain.cryptoprices.util.CryptoAppScreens
+import com.eatmybrain.cryptoprices.data.enums.CryptoAppScreens
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
