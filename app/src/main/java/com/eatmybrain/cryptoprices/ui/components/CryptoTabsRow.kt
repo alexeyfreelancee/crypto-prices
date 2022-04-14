@@ -17,8 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.eatmybrain.cryptoprices.util.RoundedCorner
-import com.eatmybrain.cryptoprices.util.TabsRowHeight
+import com.eatmybrain.cryptoprices.util.Constants
 
 @Composable
 fun CryptoTabsRow(
@@ -30,7 +29,7 @@ fun CryptoTabsRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(TabsRowHeight)
+            .height(Constants.TabsRowHeight)
             .background(MaterialTheme.colors.surface),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -64,7 +63,7 @@ fun TabItem(name: String, selected: Boolean, onItemClicked: (String) -> Unit) {
         modifier = Modifier
             .padding(vertical = 12.dp, horizontal = 8.dp)
             .fillMaxHeight(),
-        shape = RoundedCornerShape(RoundedCorner),
+        shape = RoundedCornerShape(Constants.RoundedCorner),
         onClick = { onItemClicked(name) }
     ) {
         Box(

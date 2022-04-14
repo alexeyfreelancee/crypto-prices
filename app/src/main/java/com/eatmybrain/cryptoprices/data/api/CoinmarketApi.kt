@@ -4,8 +4,7 @@ package com.eatmybrain.cryptoprices.data.api
 import com.eatmybrain.cryptoprices.BuildConfig
 import com.eatmybrain.cryptoprices.data.structures.CryptoInfoResponse
 import com.eatmybrain.cryptoprices.data.structures.CryptoListResponse
-import com.eatmybrain.cryptoprices.util.END_LIST_LIMIT
-import com.eatmybrain.cryptoprices.util.START_LIST_LIMIT
+import com.eatmybrain.cryptoprices.util.Constants
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -19,8 +18,8 @@ interface CoinmarketApi {
     suspend fun topCryptoList(
         @Header("X-CMC_PRO_API_KEY")
         apiKey:String = BuildConfig.COINMARKETCAP_KEY,
-        @Query("start") start:Int = START_LIST_LIMIT,
-        @Query("limit") limit:Int = END_LIST_LIMIT
+        @Query("start") start:Int = Constants.START_LIST_LIMIT,
+        @Query("limit") limit:Int = Constants.END_LIST_LIMIT
     ) : CryptoListResponse
 
     @GET("v1/cryptocurrency/info")

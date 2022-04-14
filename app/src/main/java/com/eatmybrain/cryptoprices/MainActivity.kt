@@ -19,7 +19,7 @@ import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoScreen
 import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoViewModel
 import com.eatmybrain.cryptoprices.ui.crypto_list.CryptoListScreen
 import com.eatmybrain.cryptoprices.ui.theme.CryptoPricesTheme
-import com.eatmybrain.cryptoprices.util.SYMBOL_ARGUMENT
+import com.eatmybrain.cryptoprices.util.Constants
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,10 +72,10 @@ fun CryptoAppNavHost(navController: NavHostController, modifier: Modifier = Modi
         composable(
             route = "${CryptoAppScreens.CryptoInfo.name}/{symbol}",
             arguments = listOf(
-                navArgument(SYMBOL_ARGUMENT) { type = NavType.StringType }
+                navArgument(Constants.SYMBOL_ARGUMENT) { type = NavType.StringType }
             )
         ) {
-            val cryptoSymbol = it.arguments?.getString(SYMBOL_ARGUMENT)!!
+            val cryptoSymbol = it.arguments?.getString(Constants.SYMBOL_ARGUMENT)!!
             CryptoInfoScreen(cryptoSymbol)
         }
     }

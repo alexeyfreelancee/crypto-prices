@@ -30,7 +30,7 @@ import coil.size.Size
 import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.ui.theme.Green
 import com.eatmybrain.cryptoprices.ui.theme.Red
-import com.eatmybrain.cryptoprices.util.RoundedCorner
+import com.eatmybrain.cryptoprices.util.Constants
 import com.eatmybrain.cryptoprices.util.round
 
 @Composable
@@ -58,7 +58,7 @@ fun CryptoItem(
 ) {
     Card(
         modifier = modifier,
-        shape = RoundedCornerShape(RoundedCorner),
+        shape = RoundedCornerShape(Constants.RoundedCorner),
         onClick = { onItemClicked(cryptoItemInfo) }
     ) {
         Row(
