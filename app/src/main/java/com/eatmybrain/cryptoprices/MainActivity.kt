@@ -14,11 +14,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.eatmybrain.cryptoprices.data.enums.CryptoAppScreens
 import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoScreen
 import com.eatmybrain.cryptoprices.ui.crypto_info.CryptoInfoViewModel
 import com.eatmybrain.cryptoprices.ui.crypto_list.CryptoListScreen
 import com.eatmybrain.cryptoprices.ui.theme.CryptoPricesTheme
-import com.eatmybrain.cryptoprices.data.enums.CryptoAppScreens
+import com.eatmybrain.cryptoprices.util.SYMBOL_ARGUMENT
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,10 +72,10 @@ fun CryptoAppNavHost(navController: NavHostController, modifier: Modifier = Modi
         composable(
             route = "${CryptoAppScreens.CryptoInfo.name}/{symbol}",
             arguments = listOf(
-                navArgument("symbol") { type = NavType.StringType }
+                navArgument(SYMBOL_ARGUMENT) { type = NavType.StringType }
             )
         ) {
-            val cryptoSymbol = it.arguments?.getString("symbol")!!
+            val cryptoSymbol = it.arguments?.getString(SYMBOL_ARGUMENT)!!
             CryptoInfoScreen(cryptoSymbol)
         }
     }
