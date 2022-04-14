@@ -101,7 +101,7 @@ private fun ScreenContent(
 
 
 @Composable
-fun PricesHistoryChart(onPeriodChanged: (String) -> Unit, chartData: LineDataSet) {
+private fun PricesHistoryChart(onPeriodChanged: (String) -> Unit, chartData: LineDataSet) {
     val allTabs = PricePeriod.textValues()
     var currentTab by remember { mutableStateOf(allTabs.first()) }
     val lineData = LineData(chartData.apply {
@@ -155,7 +155,7 @@ fun PricesHistoryChart(onPeriodChanged: (String) -> Unit, chartData: LineDataSet
 }
 
 @Composable
-fun cryptoInfoViewModel(cryptoSymbol: String): CryptoInfoViewModel {
+private fun cryptoInfoViewModel(cryptoSymbol: String): CryptoInfoViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivity.ViewModelFactoryProvider::class.java
@@ -165,7 +165,7 @@ fun cryptoInfoViewModel(cryptoSymbol: String): CryptoInfoViewModel {
 
 
 @Composable
-fun Header(cryptoInfo: CryptoFullInfo) {
+private fun Header(cryptoInfo: CryptoFullInfo) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth()
