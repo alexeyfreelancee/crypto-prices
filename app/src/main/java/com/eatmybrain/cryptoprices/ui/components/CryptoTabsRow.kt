@@ -22,21 +22,22 @@ import com.eatmybrain.cryptoprices.TabsRowHeight
 
 @Composable
 fun CryptoTabsRow(
-    allScreens: List<String>,
-    currentScreen: String,
-    onItemClicked: (String) -> Unit
+    allTabs: List<String>,
+    currentTab: String,
+    onItemClicked: (String) -> Unit,
+    modifier :Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(TabsRowHeight)
             .background(MaterialTheme.colors.surface),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        allScreens.forEach { screen ->
+        allTabs.forEach { screen ->
             TabItem(
                 name = screen,
-                selected = screen == currentScreen,
+                selected = screen == currentTab,
                 onItemClicked = onItemClicked
             )
         }

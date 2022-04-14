@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.eatmybrain.cryptoprices.ListLoadingDelay
 import com.eatmybrain.cryptoprices.data.Repository
 import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.data.structures.CryptoListResponse
@@ -33,6 +34,8 @@ class CryptoListViewModel @Inject constructor(
     val metaverseList:LiveData<ResultOf<List<CryptoItemInfo>>> = _metaverseList
 
 
+
+
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing:LiveData<Boolean> = _isRefreshing
 
@@ -41,33 +44,30 @@ class CryptoListViewModel @Inject constructor(
     }
 
     fun loadCryptoList(delay:Boolean) = viewModelScope.launch{
-        _isRefreshing.postValue(true)
+        _isRefreshing.value = true
 
         val response = withContext(Dispatchers.IO){
-             repository.loadCryptoList()
+             repository.cryptoList()
         }
 
-        if(delay) delay(1000)
+        if(delay) delay(ListLoadingDelay)
 
         if(response.status.errorCode == 0){
-            response.data?.forEach {
-                it.imageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/${it.id}.png"
-            }
             parseResponseData(response)
         } else{
            responseError(response)
         }
 
-        _isRefreshing.postValue(false)
+        _isRefreshing.value = false
     }
 
     private  fun responseError(response:CryptoListResponse) {
         val errorMessage = response.status.errorMessage!!
         val result = ResultOf.Failure(errorMessage)
-        _cryptoList.postValue(result)
-        _defiList.postValue(result)
-        _nftList.postValue(result)
-        _metaverseList.postValue(result)
+        _cryptoList.value = result
+        _defiList.value = result
+        _nftList.value = result
+        _metaverseList.value = result
     }
 
 
@@ -77,10 +77,13 @@ class CryptoListViewModel @Inject constructor(
         val defi = ResultOf.Success(response.data?.filter { it.tags.contains("defi") }?: emptyList())
         val nft = ResultOf.Success(response.data?.filter { it.tags.contains("collectibles-nfts") }?: emptyList())
         val metaverse = ResultOf.Success(response.data?.filter { it.tags.contains("metaverse") }?: emptyList())
-        _cryptoList.postValue(crypto)
-        _defiList.postValue(defi)
-        _nftList.postValue(nft)
-        _metaverseList.postValue(metaverse)
+        withContext(Dispatchers.Main){
+            _cryptoList.value = crypto
+            _defiList.value = defi
+            _nftList.value = nft
+            _metaverseList.value = metaverse
+        }
+
     }
 
 }

@@ -30,8 +30,8 @@ fun CryptoListScreen(
         val allTabs = CryptoAppTab.values().map { it.name }
         var currentTab by rememberSaveable { mutableStateOf(CryptoAppTab.Crypto) }
         CryptoTabsRow(
-            allScreens = allTabs,
-            currentScreen = currentTab.toString(),
+            allTabs = allTabs,
+            currentTab = currentTab.toString(),
             onItemClicked = {
                 currentTab = CryptoAppTab.fromTitle(it)
             }

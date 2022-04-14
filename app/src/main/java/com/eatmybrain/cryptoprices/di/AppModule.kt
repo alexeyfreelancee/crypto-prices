@@ -21,7 +21,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideLoggingClient() = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
         .build()
 
     @Provides
@@ -36,7 +36,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFinnhubApi(loggingClient: OkHttpClient):FinnhubApi = Retrofit.Builder()
+    fun provideFinnhubApi(loggingClient: OkHttpClient): FinnhubApi = Retrofit.Builder()
         .baseUrl(BuildConfig.FINNHUB_API)
         .addConverterFactory(GsonConverterFactory.create())
         .client(loggingClient)
