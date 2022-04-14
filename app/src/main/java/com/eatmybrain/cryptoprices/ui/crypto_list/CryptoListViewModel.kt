@@ -45,8 +45,6 @@ class CryptoListViewModel @Inject constructor(
              repository.cryptoList()
         }
 
-
-
         if(response.status.errorCode == 0){
             parseResponseData(response)
         } else{
