@@ -16,9 +16,11 @@ import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.ui.components.CryptoLazyColumn
 import com.eatmybrain.cryptoprices.ui.components.CryptoTabsRow
 import com.eatmybrain.cryptoprices.ui.components.LoadingError
+import com.eatmybrain.cryptoprices.util.ResultOf
 import com.eatmybrain.cryptoprices.util.doIfFailure
 import com.eatmybrain.cryptoprices.util.doIfSuccess
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
@@ -26,32 +28,8 @@ fun CryptoListScreen(
     viewModel: CryptoListViewModel = hiltViewModel(),
     onItemClicked: (CryptoItemInfo) -> Unit
 ) {
-    Column {
-        val allTabs = CryptoAppTab.values().map { it.name }
-        var currentTab by rememberSaveable { mutableStateOf(CryptoAppTab.Crypto) }
-        CryptoTabsRow(
-            allTabs = allTabs,
-            currentTab = currentTab.toString(),
-            onItemClicked = {
-                currentTab = CryptoAppTab.fromTitle(it)
-            }
-        )
-
-        CryptoList(
-            currentTab = currentTab,
-            viewModel = viewModel,
-            onItemClicked = onItemClicked
-        )
-    }
-
-}
-
-@Composable
-fun CryptoList(
-    currentTab: CryptoAppTab,
-    viewModel: CryptoListViewModel,
-    onItemClicked: (CryptoItemInfo) -> Unit
-) {
+    val allTabs = CryptoAppTab.values().map { it.name }
+    var currentTab by rememberSaveable { mutableStateOf(CryptoAppTab.Crypto) }
     val cryptoListResult by when (currentTab) {
         CryptoAppTab.Crypto -> viewModel.cryptoList.observeAsState()
         CryptoAppTab.DeFi -> viewModel.defiList.observeAsState()
@@ -62,9 +40,62 @@ fun CryptoList(
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing ?: true)
 
 
+    CryptoList(
+        allTabs = allTabs,
+        currentTab = currentTab,
+        cryptoListResult = cryptoListResult,
+        onItemClicked = onItemClicked,
+        swipeRefreshState = swipeRefreshState,
+        refreshList = {
+            viewModel.loadCryptoList()
+        },
+        setCurrentTab = {
+            currentTab = it
+        }
+    )
+}
+
+@Composable
+private fun CryptoList(
+    allTabs: List<String>,
+    currentTab: CryptoAppTab,
+    swipeRefreshState: SwipeRefreshState,
+    cryptoListResult: ResultOf<List<CryptoItemInfo>>?,
+    setCurrentTab: (CryptoAppTab) -> Unit,
+    onItemClicked: (CryptoItemInfo) -> Unit,
+    refreshList: () -> Unit
+) {
+    Column {
+
+        CryptoTabsRow(
+            allTabs = allTabs,
+            currentTab = currentTab.toString(),
+            onItemClicked = {
+                val tab = CryptoAppTab.fromTitle(it)
+                setCurrentTab(tab)
+            }
+        )
+
+        RefreshableList(
+            onItemClicked = onItemClicked,
+            swipeRefreshState = swipeRefreshState,
+            refreshList = refreshList,
+            cryptoListResult = cryptoListResult
+        )
+    }
+}
+
+@Composable
+private fun RefreshableList(
+    onItemClicked: (CryptoItemInfo) -> Unit,
+    swipeRefreshState:SwipeRefreshState,
+    refreshList:() -> Unit,
+    cryptoListResult: ResultOf<List<CryptoItemInfo>>?
+) {
+
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh =  { viewModel.loadCryptoList() },
+        onRefresh = { refreshList() },
         modifier = Modifier.fillMaxSize()
     ) {
         cryptoListResult?.doIfSuccess { listItems ->

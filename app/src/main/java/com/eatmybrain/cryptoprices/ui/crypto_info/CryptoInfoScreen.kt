@@ -41,13 +41,30 @@ fun CryptoInfoScreen(
     val lineChartDataResult by viewModel.chartData.observeAsState()
     val refreshing by viewModel.isRefreshing.observeAsState()
 
+    CryptoInfo(
+        cryptoInfoResult = cryptoInfoResult,
+        lineChartDataResult = lineChartDataResult,
+        refreshing = refreshing,
+        updateChartPeriod = {
+            viewModel.updateChartPeriod(it)
+        }
+    )
+}
+
+@Composable
+private fun CryptoInfo(
+    cryptoInfoResult:ResultOf<CryptoFullInfo>?,
+    lineChartDataResult:ResultOf<LineDataSet>?,
+    refreshing:Boolean?,
+    updateChartPeriod:(String) -> Unit
+) {
     if (refreshing == true) {
         Loading()
     } else {
         ScreenContent(
             cryptoInfoResult = cryptoInfoResult,
             onPeriodChanged = {
-                viewModel.updateChartPeriod(it)
+                updateChartPeriod(it)
             },
             chartDataResult = lineChartDataResult
         )
@@ -55,14 +72,14 @@ fun CryptoInfoScreen(
 }
 
 @Composable
-fun Loading() {
+private fun Loading() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator()
     }
 }
 
 @Composable
-fun ScreenContent(
+private fun ScreenContent(
     chartDataResult: ResultOf<LineDataSet>?,
     cryptoInfoResult: ResultOf<CryptoFullInfo>?,
     onPeriodChanged: (String) -> Unit

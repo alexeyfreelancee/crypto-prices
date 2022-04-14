@@ -27,10 +27,10 @@ import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
-import com.eatmybrain.cryptoprices.RoundedCorner
 import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.ui.theme.Green
 import com.eatmybrain.cryptoprices.ui.theme.Red
+import com.eatmybrain.cryptoprices.util.RoundedCorner
 import com.eatmybrain.cryptoprices.util.round
 
 @Composable
@@ -76,45 +76,54 @@ fun CryptoItem(
                 style = MaterialTheme.typography.h6
             )
 
-            Column(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
-                horizontalAlignment = Alignment.End
-            ) {
-                var cryptoPrice =
-                    cryptoItemInfo.price.usd.value.round(2).toString().replace(".", ",")
-                val percentChange = cryptoItemInfo.price.usd.percentChange24h
-                val background = if (percentChange > 0) Green else Red
-                val changeSign = if (percentChange > 0) "+" else ""
-                val priceChange = percentChange.round(2).toString().replace(".", ",")
-                if (cryptoPrice.substringAfter(",") == "0") {
-                    cryptoPrice = cryptoPrice.substringBefore(",")
-                }
+            PriceData(
+                cryptoItemInfo = cryptoItemInfo,
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
+            )
+        }
+    }
+}
 
 
-                Text(
-                    text = "\$$cryptoPrice",
-                    style = MaterialTheme.typography.subtitle2
-                )
-                Spacer(Modifier.height(4.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(background),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        color = Color.White,
-                        text = "$changeSign$priceChange%",
-                        modifier = Modifier.padding(
-                            start = 10.dp,
-                            end = 4.dp,
-                            top = 4.dp,
-                            bottom = 4.dp
-                        ),
-                        style = MaterialTheme.typography.caption
-                    )
-                }
-            }
+@Composable
+fun PriceData(cryptoItemInfo: CryptoItemInfo, modifier: Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.End
+    ) {
+        var cryptoPrice =
+            cryptoItemInfo.price.usd.value.round(2).toString().replace(".", ",")
+        val percentChange = cryptoItemInfo.price.usd.percentChange24h
+        val background = if (percentChange > 0) Green else Red
+        val changeSign = if (percentChange > 0) "+" else ""
+        val priceChange = percentChange.round(2).toString().replace(".", ",")
+        if (cryptoPrice.substringAfter(",") == "0") {
+            cryptoPrice = cryptoPrice.substringBefore(",")
+        }
+
+
+        Text(
+            text = "\$$cryptoPrice",
+            style = MaterialTheme.typography.subtitle2
+        )
+        Spacer(Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(background),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                color = Color.White,
+                text = "$changeSign$priceChange%",
+                modifier = Modifier.padding(
+                    start = 10.dp,
+                    end = 4.dp,
+                    top = 4.dp,
+                    bottom = 4.dp
+                ),
+                style = MaterialTheme.typography.caption
+            )
         }
     }
 }

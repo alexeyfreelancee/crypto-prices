@@ -25,6 +25,8 @@ class Repository @Inject constructor(
             ex.printStackTrace()
             null
         }
+
+
     }
 
     suspend fun cryptoList(): CryptoListResponse {
