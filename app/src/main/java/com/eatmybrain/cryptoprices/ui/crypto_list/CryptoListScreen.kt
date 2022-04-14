@@ -64,7 +64,7 @@ fun CryptoList(
 
     SwipeRefresh(
         state = swipeRefreshState,
-        onRefresh =  { viewModel.loadCryptoList(true) },
+        onRefresh =  { viewModel.loadCryptoList() },
         modifier = Modifier.fillMaxSize()
     ) {
         cryptoListResult?.doIfSuccess { listItems ->

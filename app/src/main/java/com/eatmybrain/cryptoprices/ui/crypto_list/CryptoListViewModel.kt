@@ -4,14 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eatmybrain.cryptoprices.ListLoadingDelay
 import com.eatmybrain.cryptoprices.data.Repository
 import com.eatmybrain.cryptoprices.data.structures.CryptoItemInfo
 import com.eatmybrain.cryptoprices.data.structures.CryptoListResponse
 import com.eatmybrain.cryptoprices.util.ResultOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -37,17 +35,17 @@ class CryptoListViewModel @Inject constructor(
     val isRefreshing:LiveData<Boolean> = _isRefreshing
 
     init {
-        loadCryptoList(false)
+        loadCryptoList()
     }
 
-    fun loadCryptoList(delay:Boolean) = viewModelScope.launch{
+    fun loadCryptoList() = viewModelScope.launch{
         _isRefreshing.value = true
 
         val response = withContext(Dispatchers.IO){
              repository.cryptoList()
         }
 
-        if(delay) delay(ListLoadingDelay)
+
 
         if(response.status.errorCode == 0){
             parseResponseData(response)
