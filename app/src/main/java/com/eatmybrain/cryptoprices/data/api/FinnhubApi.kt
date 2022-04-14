@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface FinnhubApi {
 
-    //  api/v1/crypto/candle?symbol=BINANCE:BTCUSDT&resolution=D&from=1572651390&to=1575243390
+
     @GET("api/v1/crypto/candle")
     suspend fun ohlcData(
         @Header("X-Finnhub-Token") apiKey:String = BuildConfig.FINNHUB_KEY,

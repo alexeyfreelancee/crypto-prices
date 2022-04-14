@@ -44,7 +44,7 @@ class Repository @Inject constructor(
     suspend fun cryptoInfo(symbol: String): CryptoInfoResponse {
         return try {
             val response = coinmarketApi.cryptoInfo(symbol = symbol)
-            response.data!![symbol]?.apply {
+            response.data?.get(symbol)?.apply {
                 imageUrl = "https://s2.coinmarketcap.com/static/img/coins/128x128/${this.id}.png"
             }
             response

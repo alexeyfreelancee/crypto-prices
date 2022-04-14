@@ -47,13 +47,11 @@ fun CryptoInfoScreen(
         ScreenContent(
             cryptoInfoResult = cryptoInfoResult,
             onPeriodChanged = {
-                viewModel.updatePricesPeriod(it)
+                viewModel.updateChartPeriod(it)
             },
             chartDataResult = lineChartDataResult
         )
     }
-
-
 }
 
 @Composable
@@ -97,7 +95,6 @@ fun PricesHistoryChart(onPeriodChanged: (String) -> Unit, chartData: LineDataSet
 
 
     })
-
 
     Column {
         CryptoTabsRow(

@@ -33,9 +33,6 @@ class CryptoListViewModel @Inject constructor(
     private val _metaverseList = MutableLiveData<ResultOf<List<CryptoItemInfo>>>()
     val metaverseList:LiveData<ResultOf<List<CryptoItemInfo>>> = _metaverseList
 
-
-
-
     private val _isRefreshing = MutableLiveData<Boolean>()
     val isRefreshing:LiveData<Boolean> = _isRefreshing
 

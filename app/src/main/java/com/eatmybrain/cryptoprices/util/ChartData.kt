@@ -18,7 +18,7 @@ object ChartData {
             val entry = Entry(index.toFloat(), price)
             list.add(entry)
         }
-        LineDataSet(list, "Price Data")
+        LineDataSet(list, "Price $")
     }
 
 
@@ -28,7 +28,6 @@ object ChartData {
             PricePeriod.Week -> "15"
             PricePeriod.Month -> "60"
             PricePeriod.Year -> "D"
-
         }
     }
 

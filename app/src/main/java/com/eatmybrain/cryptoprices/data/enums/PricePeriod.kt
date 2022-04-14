@@ -18,11 +18,5 @@ enum class PricePeriod {
                 else -> throw IllegalStateException("Unknown text value")
             }
         }
-        fun daysCount(period: PricePeriod) = when(period){
-            Today -> 1.0
-            Week -> 7.0
-            Month -> 30.0
-            Year -> 365.0
-        }
     }
 }

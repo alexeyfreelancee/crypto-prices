@@ -35,7 +35,7 @@ class CryptoInfoViewModel @AssistedInject constructor(
         viewModelScope.launch {
             _isRefreshing.value = true
             loadCryptoInfo()
-            loadCandlesData()
+            loadChartData()
             _isRefreshing.value = false
         }
 
@@ -55,7 +55,7 @@ class CryptoInfoViewModel @AssistedInject constructor(
         }
     }
 
-    private suspend fun loadCandlesData(period: PricePeriod = PricePeriod.Today) {
+    private suspend fun loadChartData(period: PricePeriod = PricePeriod.Today) {
         val ohlcData = withContext(Dispatchers.IO) {
             repository.ohlcData(
                 symbol = cryptoSymbol,
@@ -74,9 +74,9 @@ class CryptoInfoViewModel @AssistedInject constructor(
 
     }
 
-    fun updatePricesPeriod(periodText: String) = viewModelScope.launch {
+    fun updateChartPeriod(periodText: String) = viewModelScope.launch {
         val period = PricePeriod.fromText(periodText)
-        loadCandlesData(period)
+        loadChartData(period)
     }
 
 

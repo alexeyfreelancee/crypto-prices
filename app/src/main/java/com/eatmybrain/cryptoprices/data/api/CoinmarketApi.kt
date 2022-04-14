@@ -13,9 +13,7 @@ interface CoinmarketApi {
 
 
     @GET("v1/cryptocurrency/listings/latest")
-    @Headers(
-        "Accept: application/json"
-    )
+    @Headers("Accept: application/json")
     suspend fun topCryptoList(
         @Header("X-CMC_PRO_API_KEY")
         apiKey:String = BuildConfig.COINMARKETCAP_KEY,
@@ -24,9 +22,7 @@ interface CoinmarketApi {
     ) : CryptoListResponse
 
     @GET("v1/cryptocurrency/info")
-    @Headers(
-        "Accept: application/json"
-    )
+    @Headers("Accept: application/json")
     suspend fun cryptoInfo(
         @Header("X-CMC_PRO_API_KEY")
         apiKey:String = BuildConfig.COINMARKETCAP_KEY,
