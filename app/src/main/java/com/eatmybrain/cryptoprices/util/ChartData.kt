@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 
-object ChartData {
+class ChartData {
 
     suspend fun parse(ohlcData: OhlcData): LineDataSet = withContext(Dispatchers.IO) {
         val list = ArrayList<Entry>()

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-object Time {
+class Time {
     fun currentTime() = System.currentTimeMillis() / 1000
 
     fun fromPeriod(period: PricePeriod):Long{

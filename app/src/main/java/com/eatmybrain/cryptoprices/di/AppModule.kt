@@ -4,6 +4,8 @@ import com.eatmybrain.cryptoprices.BuildConfig
 import com.eatmybrain.cryptoprices.data.Repository
 import com.eatmybrain.cryptoprices.data.api.CoinmarketApi
 import com.eatmybrain.cryptoprices.data.api.FinnhubApi
+import com.eatmybrain.cryptoprices.util.ChartData
+import com.eatmybrain.cryptoprices.util.Time
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,4 +51,14 @@ object AppModule {
         coinmarketApi: CoinmarketApi,
         finnhubApi: FinnhubApi
     ):Repository = Repository(coinmarketApi, finnhubApi)
+
+
+    @Provides
+    @Singleton
+    fun provideTime() = Time()
+
+    @Provides
+    @Singleton
+    fun provideChartData() = ChartData()
+
 }

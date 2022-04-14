@@ -18,6 +18,8 @@ import kotlinx.coroutines.withContext
 
 class CryptoInfoViewModel @AssistedInject constructor(
     private val repository: Repository,
+    private val time:Time,
+    private val chartDataParser: ChartData,
     @Assisted
     private val cryptoSymbol: String
 ) : ViewModel() {
@@ -59,14 +61,14 @@ class CryptoInfoViewModel @AssistedInject constructor(
         val ohlcData = withContext(Dispatchers.IO) {
             repository.ohlcData(
                 symbol = cryptoSymbol,
-                from = Time.fromPeriod(period),
-                to = Time.currentTime(),
-                resolution = ChartData.resolution(period)
+                from = time.fromPeriod(period),
+                to = time.currentTime(),
+                resolution = chartDataParser.resolution(period)
             )
         }
 
         _lineChartData.value = if (ohlcData != null && ohlcData.status == "ok") {
-            val data = ChartData.parse(ohlcData)
+            val data = chartDataParser.parse(ohlcData)
             ResultOf.Success(data)
         } else {
             ResultOf.Failure("Request error")
